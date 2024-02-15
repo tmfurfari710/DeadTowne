@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class gameManager : MonoBehaviour
 {
@@ -16,9 +17,11 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text enemyCountText;
     public Image playerHPBar;
     public GameObject playerDamageFlash;
-    
-    public GameObject player;
+    public GameObject playerSpawnPos;
 
+
+    public GameObject player;
+    public playerController playerScript;
     public bool isPaused;
     int enemyCount;
 
@@ -27,6 +30,8 @@ public class gameManager : MonoBehaviour
     {
         instance = this;
         player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<playerController>();
+        playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
     // Update is called once per frame

@@ -27,7 +27,7 @@ public class playerController : MonoBehaviour, IDamage
     void Start()
     {
         HPOrig = HP;
-        updatePlayerUI();
+        respawn();
     }
 
     // Update is called once per frame
@@ -84,6 +84,7 @@ public class playerController : MonoBehaviour, IDamage
             {
                 dmg.takeDamage(shootDamage);
             }
+
         }
 
         yield return new WaitForSeconds(shootRate);
@@ -112,5 +113,15 @@ public class playerController : MonoBehaviour, IDamage
         gameManager.instance.playerDamageFlash.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         gameManager.instance.playerDamageFlash.SetActive(false);
+    }
+
+    public void respawn()
+    {
+        HP = HPOrig;
+        updatePlayerUI();
+
+        controller.enabled = false;
+        transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        controller.enabled = true;
     }
 }
