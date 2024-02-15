@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class gameManager : MonoBehaviour
 {
@@ -12,8 +13,10 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
-
+    [SerializeField] TMP_Text enemyCountText;
     public Image playerHPBar;
+    public GameObject playerDamageFlash;
+    
     public GameObject player;
 
     public bool isPaused;
@@ -58,6 +61,7 @@ public class gameManager : MonoBehaviour
     public void updateGameGoal(int amount)
     {
         enemyCount += amount;
+        enemyCountText.text = enemyCount.ToString("F0");
 
         if (enemyCount <= 0)
         {

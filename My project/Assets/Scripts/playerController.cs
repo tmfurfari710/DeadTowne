@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 
-public class playerController : MonoBehaviour
+public class playerController : MonoBehaviour, IDamage
 {
     [SerializeField] CharacterController controller;
 
@@ -23,7 +23,7 @@ public class playerController : MonoBehaviour
     bool isShooting;
     int HPOrig;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         HPOrig = HP;
@@ -76,6 +76,8 @@ public class playerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDist))
         {
+            Debug.Log(hit.collider.name);
+
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
             if (hit.transform != transform && dmg != null)
@@ -92,6 +94,7 @@ public class playerController : MonoBehaviour
     {
         HP -= amount;
         updatePlayerUI();
+        StartCoroutine(flashDamage());
 
         if (HP <= 0)
         {
@@ -102,5 +105,12 @@ public class playerController : MonoBehaviour
     void updatePlayerUI()
     {
         gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;
+    }
+
+    IEnumerator flashDamage()
+    {
+        gameManager.instance.playerDamageFlash.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        gameManager.instance.playerDamageFlash.SetActive(false);
     }
 }
